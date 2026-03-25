@@ -9,10 +9,694 @@
 
 meta:
   updated_at: "2025-03-25"
-  source_note: "Preencher manualmente ou gerar via pipeline de dados."
+  source_note: "Gerado a partir de roles.csv (agregação por campeão)."
 
 champions:
-  - id: example_azir
+  - id: "Aatrox"
+    name: "Aatrox"
+    aliases: ["aatrox"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Ahri"
+    name: "Ahri"
+    aliases: ["ahri"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Akali"
+    name: "Akali"
+    aliases: ["akali"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Akshan"
+    name: "Akshan"
+    aliases: ["akshan"]
+    roles: [top, mid, bottom, support]
+  - id: "Alistar"
+    name: "Alistar"
+    aliases: ["alistar"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Ambessa"
+    name: "Ambessa"
+    aliases: ["ambessa"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Amumu"
+    name: "Amumu"
+    aliases: ["amumu"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Anivia"
+    name: "Anivia"
+    aliases: ["anivia"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Annie"
+    name: "Annie"
+    aliases: ["annie"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Aphelios"
+    name: "Aphelios"
+    aliases: ["aphelios"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Ashe"
+    name: "Ashe"
+    aliases: ["ashe"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Aurelion Sol"
+    name: "Aurelion Sol"
+    aliases: ["aurelion sol"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Aurora"
+    name: "Aurora"
+    aliases: ["aurora"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Azir"
     name: "Azir"
     aliases: ["azir"]
-    roles: [mid]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Bard"
+    name: "Bard"
+    aliases: ["bard"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Bel'Veth"
+    name: "Bel'Veth"
+    aliases: ["bel'veth"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Blitzcrank"
+    name: "Blitzcrank"
+    aliases: ["blitzcrank"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Brand"
+    name: "Brand"
+    aliases: ["brand"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Braum"
+    name: "Braum"
+    aliases: ["braum"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Briar"
+    name: "Briar"
+    aliases: ["briar"]
+    roles: [top, support]
+  - id: "Caitlyn"
+    name: "Caitlyn"
+    aliases: ["caitlyn"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Camille"
+    name: "Camille"
+    aliases: ["camille"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Cassiopeia"
+    name: "Cassiopeia"
+    aliases: ["cassiopeia"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Cho'Gath"
+    name: "Cho'Gath"
+    aliases: ["cho'gath"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Corki"
+    name: "Corki"
+    aliases: ["corki"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Darius"
+    name: "Darius"
+    aliases: ["darius"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Diana"
+    name: "Diana"
+    aliases: ["diana"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Dr. Mundo"
+    name: "Dr. Mundo"
+    aliases: ["dr. mundo"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Draven"
+    name: "Draven"
+    aliases: ["draven"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Ekko"
+    name: "Ekko"
+    aliases: ["ekko"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Elise"
+    name: "Elise"
+    aliases: ["elise"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Evelynn"
+    name: "Evelynn"
+    aliases: ["evelynn"]
+    roles: [jungle, support]
+  - id: "Ezreal"
+    name: "Ezreal"
+    aliases: ["ezreal"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Fiddlesticks"
+    name: "Fiddlesticks"
+    aliases: ["fiddlesticks"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Fiora"
+    name: "Fiora"
+    aliases: ["fiora"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Fizz"
+    name: "Fizz"
+    aliases: ["fizz"]
+    roles: [jungle, bottom, support]
+  - id: "Galio"
+    name: "Galio"
+    aliases: ["galio"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Gangplank"
+    name: "Gangplank"
+    aliases: ["gangplank"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Garen"
+    name: "Garen"
+    aliases: ["garen"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Gnar"
+    name: "Gnar"
+    aliases: ["gnar"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Gragas"
+    name: "Gragas"
+    aliases: ["gragas"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Graves"
+    name: "Graves"
+    aliases: ["graves"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Gwen"
+    name: "Gwen"
+    aliases: ["gwen"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Hecarim"
+    name: "Hecarim"
+    aliases: ["hecarim"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Heimerdinger"
+    name: "Heimerdinger"
+    aliases: ["heimerdinger"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Hwei"
+    name: "Hwei"
+    aliases: ["hwei"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Illaoi"
+    name: "Illaoi"
+    aliases: ["illaoi"]
+    roles: [bottom, support]
+  - id: "Irelia"
+    name: "Irelia"
+    aliases: ["irelia"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Ivern"
+    name: "Ivern"
+    aliases: ["ivern"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Janna"
+    name: "Janna"
+    aliases: ["janna"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Jarvan IV"
+    name: "Jarvan IV"
+    aliases: ["jarvan iv"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Jax"
+    name: "Jax"
+    aliases: ["jax"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Jayce"
+    name: "Jayce"
+    aliases: ["jayce"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Jhin"
+    name: "Jhin"
+    aliases: ["jhin"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Jinx"
+    name: "Jinx"
+    aliases: ["jinx"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "K'Sante"
+    name: "K'Sante"
+    aliases: ["k'sante"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Kai'Sa"
+    name: "Kai'Sa"
+    aliases: ["kai'sa"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Kalista"
+    name: "Kalista"
+    aliases: ["kalista"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Karma"
+    name: "Karma"
+    aliases: ["karma"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Karthus"
+    name: "Karthus"
+    aliases: ["karthus"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Kassadin"
+    name: "Kassadin"
+    aliases: ["kassadin"]
+    roles: [mid, bottom, support]
+  - id: "Katarina"
+    name: "Katarina"
+    aliases: ["katarina"]
+    roles: [mid, bottom, support]
+  - id: "Kayle"
+    name: "Kayle"
+    aliases: ["kayle"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Kayn"
+    name: "Kayn"
+    aliases: ["kayn"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Kennen"
+    name: "Kennen"
+    aliases: ["kennen"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Kha'Zix"
+    name: "Kha'Zix"
+    aliases: ["kha'zix"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Kindred"
+    name: "Kindred"
+    aliases: ["kindred"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Kled"
+    name: "Kled"
+    aliases: ["kled"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Kog'Maw"
+    name: "Kog'Maw"
+    aliases: ["kog'maw"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "LeBlanc"
+    name: "LeBlanc"
+    aliases: ["leblanc"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Lee Sin"
+    name: "Lee Sin"
+    aliases: ["lee sin"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Leona"
+    name: "Leona"
+    aliases: ["leona"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Lillia"
+    name: "Lillia"
+    aliases: ["lillia"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Lissandra"
+    name: "Lissandra"
+    aliases: ["lissandra"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Lucian"
+    name: "Lucian"
+    aliases: ["lucian"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Lulu"
+    name: "Lulu"
+    aliases: ["lulu"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Lux"
+    name: "Lux"
+    aliases: ["lux"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Malphite"
+    name: "Malphite"
+    aliases: ["malphite"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Malzahar"
+    name: "Malzahar"
+    aliases: ["malzahar"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Maokai"
+    name: "Maokai"
+    aliases: ["maokai"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Master Yi"
+    name: "Master Yi"
+    aliases: ["master yi"]
+    roles: [mid, bottom, support]
+  - id: "Mel"
+    name: "Mel"
+    aliases: ["mel"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Milio"
+    name: "Milio"
+    aliases: ["milio"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Miss Fortune"
+    name: "Miss Fortune"
+    aliases: ["miss fortune"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Mordekaiser"
+    name: "Mordekaiser"
+    aliases: ["mordekaiser"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Morgana"
+    name: "Morgana"
+    aliases: ["morgana"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Naafiri"
+    name: "Naafiri"
+    aliases: ["naafiri"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Nami"
+    name: "Nami"
+    aliases: ["nami"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Nasus"
+    name: "Nasus"
+    aliases: ["nasus"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Nautilus"
+    name: "Nautilus"
+    aliases: ["nautilus"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Neeko"
+    name: "Neeko"
+    aliases: ["neeko"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Nidalee"
+    name: "Nidalee"
+    aliases: ["nidalee"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Nilah"
+    name: "Nilah"
+    aliases: ["nilah"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Nocturne"
+    name: "Nocturne"
+    aliases: ["nocturne"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Nunu & Willump"
+    name: "Nunu & Willump"
+    aliases: ["nunu & willump"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Olaf"
+    name: "Olaf"
+    aliases: ["olaf"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Orianna"
+    name: "Orianna"
+    aliases: ["orianna"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Ornn"
+    name: "Ornn"
+    aliases: ["ornn"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Pantheon"
+    name: "Pantheon"
+    aliases: ["pantheon"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Poppy"
+    name: "Poppy"
+    aliases: ["poppy"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Pyke"
+    name: "Pyke"
+    aliases: ["pyke"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Qiyana"
+    name: "Qiyana"
+    aliases: ["qiyana"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Quinn"
+    name: "Quinn"
+    aliases: ["quinn"]
+    roles: [mid, bottom, support]
+  - id: "Rakan"
+    name: "Rakan"
+    aliases: ["rakan"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Rammus"
+    name: "Rammus"
+    aliases: ["rammus"]
+    roles: [top, jungle, bottom, support]
+  - id: "Rek'Sai"
+    name: "Rek'Sai"
+    aliases: ["rek'sai"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Rell"
+    name: "Rell"
+    aliases: ["rell"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Renata Glasc"
+    name: "Renata Glasc"
+    aliases: ["renata glasc"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Renekton"
+    name: "Renekton"
+    aliases: ["renekton"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Rengar"
+    name: "Rengar"
+    aliases: ["rengar"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Riven"
+    name: "Riven"
+    aliases: ["riven"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Rumble"
+    name: "Rumble"
+    aliases: ["rumble"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Ryze"
+    name: "Ryze"
+    aliases: ["ryze"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Samira"
+    name: "Samira"
+    aliases: ["samira"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Sejuani"
+    name: "Sejuani"
+    aliases: ["sejuani"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Senna"
+    name: "Senna"
+    aliases: ["senna"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Seraphine"
+    name: "Seraphine"
+    aliases: ["seraphine"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Sett"
+    name: "Sett"
+    aliases: ["sett"]
+    roles: [mid, bottom, support]
+  - id: "Shaco"
+    name: "Shaco"
+    aliases: ["shaco"]
+    roles: [jungle, mid, support]
+  - id: "Shen"
+    name: "Shen"
+    aliases: ["shen"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Shyvana"
+    name: "Shyvana"
+    aliases: ["shyvana"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Singed"
+    name: "Singed"
+    aliases: ["singed"]
+    roles: [top, mid, bottom, support]
+  - id: "Sion"
+    name: "Sion"
+    aliases: ["sion"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Sivir"
+    name: "Sivir"
+    aliases: ["sivir"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Skarner"
+    name: "Skarner"
+    aliases: ["skarner"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Smolder"
+    name: "Smolder"
+    aliases: ["smolder"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Sona"
+    name: "Sona"
+    aliases: ["sona"]
+    roles: [mid, bottom, support]
+  - id: "Soraka"
+    name: "Soraka"
+    aliases: ["soraka"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Swain"
+    name: "Swain"
+    aliases: ["swain"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Sylas"
+    name: "Sylas"
+    aliases: ["sylas"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Syndra"
+    name: "Syndra"
+    aliases: ["syndra"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Tahm Kench"
+    name: "Tahm Kench"
+    aliases: ["tahm kench"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Taliyah"
+    name: "Taliyah"
+    aliases: ["taliyah"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Talon"
+    name: "Talon"
+    aliases: ["talon"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Taric"
+    name: "Taric"
+    aliases: ["taric"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Teemo"
+    name: "Teemo"
+    aliases: ["teemo"]
+    roles: [top, jungle, bottom, support]
+  - id: "Thresh"
+    name: "Thresh"
+    aliases: ["thresh"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Tristana"
+    name: "Tristana"
+    aliases: ["tristana"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Trundle"
+    name: "Trundle"
+    aliases: ["trundle"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Tryndamere"
+    name: "Tryndamere"
+    aliases: ["tryndamere"]
+    roles: [mid, bottom, support]
+  - id: "Twisted Fate"
+    name: "Twisted Fate"
+    aliases: ["twisted fate"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Twitch"
+    name: "Twitch"
+    aliases: ["twitch"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Udyr"
+    name: "Udyr"
+    aliases: ["udyr"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Urgot"
+    name: "Urgot"
+    aliases: ["urgot"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Varus"
+    name: "Varus"
+    aliases: ["varus"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Vayne"
+    name: "Vayne"
+    aliases: ["vayne"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Veigar"
+    name: "Veigar"
+    aliases: ["veigar"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Vel'Koz"
+    name: "Vel'Koz"
+    aliases: ["vel'koz"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Vex"
+    name: "Vex"
+    aliases: ["vex"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Vi"
+    name: "Vi"
+    aliases: ["vi"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Viego"
+    name: "Viego"
+    aliases: ["viego"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Viktor"
+    name: "Viktor"
+    aliases: ["viktor"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Vladimir"
+    name: "Vladimir"
+    aliases: ["vladimir"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Volibear"
+    name: "Volibear"
+    aliases: ["volibear"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Warwick"
+    name: "Warwick"
+    aliases: ["warwick"]
+    roles: [jungle, mid, bottom, support]
+  - id: "Wukong"
+    name: "Wukong"
+    aliases: ["wukong"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Xayah"
+    name: "Xayah"
+    aliases: ["xayah"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Xerath"
+    name: "Xerath"
+    aliases: ["xerath"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Xin Zhao"
+    name: "Xin Zhao"
+    aliases: ["xin zhao"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Yasuo"
+    name: "Yasuo"
+    aliases: ["yasuo"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Yone"
+    name: "Yone"
+    aliases: ["yone"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Yorick"
+    name: "Yorick"
+    aliases: ["yorick"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Yunara"
+    name: "Yunara"
+    aliases: ["yunara"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Yuumi"
+    name: "Yuumi"
+    aliases: ["yuumi"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Zaahen"
+    name: "Zaahen"
+    aliases: ["zaahen"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Zac"
+    name: "Zac"
+    aliases: ["zac"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Zed"
+    name: "Zed"
+    aliases: ["zed"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Zeri"
+    name: "Zeri"
+    aliases: ["zeri"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Ziggs"
+    name: "Ziggs"
+    aliases: ["ziggs"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Zilean"
+    name: "Zilean"
+    aliases: ["zilean"]
+    roles: [mid, bottom, support]
+  - id: "Zoe"
+    name: "Zoe"
+    aliases: ["zoe"]
+    roles: [top, jungle, mid, bottom, support]
+  - id: "Zyra"
+    name: "Zyra"
+    aliases: ["zyra"]
+    roles: [top, jungle, mid, bottom, support]
