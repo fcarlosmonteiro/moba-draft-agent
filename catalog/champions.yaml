@@ -1,0 +1,18 @@
+# Catálogo canônico de campeões para validação e exibição.
+# Atualize este arquivo quando o elenco disponível no produto mudar.
+#
+# Campos sugeridos por entrada:
+#   id: identificador estável (ex.: riot id ou slug interno)
+#   name: nome exibido ao usuário
+#   aliases: variações aceitas em texto livre (opcional)
+#   roles: papéis típicos (subset de rules/draft-rules.yaml → roles.allowed)
+
+meta:
+  updated_at: "2025-03-25"
+  source_note: "Preencher manualmente ou gerar via pipeline de dados."
+
+champions:
+  - id: example_azir
+    name: "Azir"
+    aliases: ["azir"]
+    roles: [mid]

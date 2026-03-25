@@ -1,0 +1,39 @@
+# Regras fixas do processo de draft (League of Legends — competitivo genérico).
+# Ajuste os formatos conforme os modos que o produto suportar.
+# Campos são intencionalmente mínimos; expanda com schema/validador no código.
+
+meta:
+  game: league_of_legends
+  description: >
+    Regras mecânicas do draft. O catálogo de campeões válidos fica em catalog/champions.yaml.
+
+formats:
+  ranked_solo_draft:
+    description: Draft espelhado da fila ranqueada (referência interna).
+    phases:
+      - id: ban_phase_1
+        actions: [ban, ban, ban]
+        side: alternating_start_blue
+      - id: pick_phase_1
+        actions: [pick, pick, pick, pick, pick, pick]
+        side: alternating_start_blue
+      - id: ban_phase_2
+        actions: [ban, ban]
+        side: alternating_start_red
+      - id: pick_phase_2
+        actions: [pick, pick, pick, pick]
+        side: alternating_start_red
+    bans_total_per_team: 5
+    picks_total_per_team: 5
+
+roles:
+  allowed:
+    - top
+    - jungle
+    - mid
+    - bottom
+    - support
+
+validation:
+  duplicate_champion_across_rosters: forbidden
+  duplicate_champion_same_team: forbidden

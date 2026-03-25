@@ -1,2 +1,5 @@
-# Moba draft agent
-AI-powered drafting agent for MOBA games, providing intelligent hero picks and bans based on meta, synergy, and opponent analysis.
+# moba-draft-agent
+
+Agente de conversação para apoio a pick/ban em League of Legends (regras, catálogo, sinergias/counters agregados, partidas profissionais).
+
+**Guia:** [`docs/agent.md`](docs/agent.md).
