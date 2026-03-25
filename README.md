@@ -1,4 +1,4 @@
-# moba-draft-agent
+# Moba draft agents
 
 Agente de conversação para apoio a pick/ban em League of Legends (regras, catálogo, sinergias/counters agregados, partidas profissionais).
 
