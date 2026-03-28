@@ -1,5 +1,11 @@
 """Moba draft agent — pacote principal."""
 
+from moba_draft_agent.chat_openrouter import (
+    build_system_prompt,
+    draft_assistant_reply,
+    openrouter_chat_completion,
+    summarize_draft_rules,
+)
 from moba_draft_agent.champions import (
     ChampionIndex,
     ResolveResult,
@@ -33,6 +39,10 @@ __version__ = "0.1.0"
 __all__ = [
     "__version__",
     "project_root",
+    "build_system_prompt",
+    "summarize_draft_rules",
+    "openrouter_chat_completion",
+    "draft_assistant_reply",
     "load_draft_rules",
     "load_catalog",
     "load_policies",
