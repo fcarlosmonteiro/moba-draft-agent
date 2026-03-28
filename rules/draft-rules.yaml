@@ -1,30 +1,68 @@
-# Regras fixas do processo de draft (League of Legends — competitivo genérico).
-# Ajuste os formatos conforme os modos que o produto suportar.
-# Campos são intencionalmente mínimos; expanda com schema/validador no código.
+# Regras do draft — League of Legends (Summoner's Rift, fila ranqueada / draft espelhado).
+# Ordem das steps: ban 1 (6) → pick 1 (6) → ban 2 (4) → pick 2 (4) = 20 ações.
+# Campeões válidos e aliases: catalog/champions.yaml
 
 meta:
   game: league_of_legends
+  map: summoners_rift
   description: >
-    Regras mecânicas do draft. O catálogo de campeões válidos fica em catalog/champions.yaml.
+    Uma ação = um ban ou um pick. `side` é quem age naquela rodada (blue = lado azul, red = vermelho).
 
 formats:
-  ranked_solo_draft:
-    description: Draft espelhado da fila ranqueada (referência interna).
+  ranked_solo_draft: &summoners_rift_draft
+    id: ranked_solo_draft
+    description: Draft ranqueado (10 bans, 10 picks, ordem oficial alternada / snake na 1ª fase de picks).
+    totals:
+      bans_per_team: 5
+      picks_per_team: 5
+      actions: 20
+    # Lista canônica: validadores avançam o índice 0..19 conforme o estado do draft.
+    steps:
+      # Ban fase 1 (alternância a partir do azul)
+      - { side: blue, action: ban }
+      - { side: red, action: ban }
+      - { side: blue, action: ban }
+      - { side: red, action: ban }
+      - { side: blue, action: ban }
+      - { side: red, action: ban }
+      # Pick fase 1 (B1, R2, B2, R1)
+      - { side: blue, action: pick }
+      - { side: red, action: pick }
+      - { side: red, action: pick }
+      - { side: blue, action: pick }
+      - { side: blue, action: pick }
+      - { side: red, action: pick }
+      # Ban fase 2 (começa o vermelho)
+      - { side: red, action: ban }
+      - { side: blue, action: ban }
+      - { side: red, action: ban }
+      - { side: blue, action: ban }
+      # Pick fase 2 (R1, B2, R2, B1)
+      - { side: red, action: pick }
+      - { side: blue, action: pick }
+      - { side: blue, action: pick }
+      - { side: red, action: pick }
+
+    # Resumo humano / agrupamento (mesma ordem que `steps`)
     phases:
       - id: ban_phase_1
-        actions: [ban, ban, ban]
-        side: alternating_start_blue
+        step_range: [0, 5]
+        description: Três bans por time, alternando a partir do azul.
       - id: pick_phase_1
-        actions: [pick, pick, pick, pick, pick, pick]
-        side: alternating_start_blue
+        step_range: [6, 11]
+        description: Azul 1º pick; vermelho 2 picks; azul 2; vermelho 1 (3 campeões por time).
       - id: ban_phase_2
-        actions: [ban, ban]
-        side: alternating_start_red
+        step_range: [12, 15]
+        description: Dois bans por time; vermelho abre a fase.
       - id: pick_phase_2
-        actions: [pick, pick, pick, pick]
-        side: alternating_start_red
-    bans_total_per_team: 5
-    picks_total_per_team: 5
+        step_range: [16, 19]
+        description: Vermelho 1; azul 2; vermelho 2; azul 1 (2 campeões restantes por time).
+
+  # Mesma sequência que ranqueado (âncora YAML); override só id/description se precisar.
+  tournament_standard_draft:
+    <<: *summoners_rift_draft
+    id: tournament_standard_draft
+    description: Draft padrão de torneio SR (mesma ordem que ranqueado; fearless ban etc. seria outro formato).
 
 roles:
   allowed:
@@ -33,7 +71,32 @@ roles:
     - mid
     - bottom
     - support
+  # Colunas do CSV de partidas (Camada 3) → role interno
+  lane_column_map:
+    top_blue: top
+    jng_blue: jungle
+    mid_blue: mid
+    bot_blue: bottom
+    sup_blue: support
+    top_red: top
+    jng_red: jungle
+    mid_red: mid
+    bot_red: bottom
+    sup_red: support
 
 validation:
   duplicate_champion_across_rosters: forbidden
   duplicate_champion_same_team: forbidden
+  # Após 20 ações, espera-se 10 bans globais únicos + 10 picks globais únicos (enforçar no código).
+
+state_schema:
+  # Sugestão de JSON que o agente/UI envia (espelhe no docs/agent.md se mudar).
+  required_for_full_validation:
+    - format_id
+    - current_step_index
+    - bans
+    - picks_blue
+    - picks_red
+  notes:
+    - bans é lista global na ordem ocorrida ou conjunto único; picks separados por time conforme steps.
+    - current_step_index em 0..19 alinha com steps[0]..steps[19].
