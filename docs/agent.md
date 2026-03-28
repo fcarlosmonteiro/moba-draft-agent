@@ -2,6 +2,67 @@
 
 LLM via **OpenRouter**, orquestração **LangGraph** (ReAct). Tools em Python leem arquivos no repositório; **não** enviar JSON/CSV inteiros no prompt — só o retorno das tools.
 
+## Diagramas
+
+### 1) Fluxo principal
+
+Da esquerda para a direita: **usuário → orquestração → API → modelo**. O laço **ChatOpenAI ↔ Tools** continua enquanto o modelo pedir ferramentas.
+
+```mermaid
+flowchart LR
+  U["Usuário\n(texto; draft JSON opcional)"]
+
+  subgraph agente["moba_draft_agent — agent_graph"]
+    direction TB
+    SYS["Prompt de sistema\nassistant.md + regras + tools"]
+    LG["LangGraph ReAct"]
+    OAI["ChatOpenAI\nopenrouter.ai/api/v1"]
+    TOOL["Tools\nJSON → modelo"]
+    SYS --> LG
+    LG <-->|mensagens + tool_calls| OAI
+    OAI <-->|chama / resposta| TOOL
+  end
+
+  OR["OpenRouter\n(LLM)"]
+
+  U --> LG
+  OAI <-->|HTTPS| OR
+```
+
+**Baseline (sem grafo):** `draft_assistant_reply` / `openrouter_chat_completion` — uma chamada direta à mesma API, **sem** tools.
+
+### 2) Arquivos no disco → quem usa
+
+```mermaid
+flowchart TB
+  subgraph C1["Camada 1 — config"]
+    R["draft-rules.yaml"]
+    CAT["champions.yaml"]
+    POL["assistant.md"]
+  end
+
+  subgraph C3["Camada 3"]
+    CSV["matches.csv"]
+  end
+
+  subgraph C2["Camada 2"]
+    J["empirical *.jsonl"]
+  end
+
+  CSV -.->|ETL offline| J
+
+  SYS["Prompt de sistema"]
+  T["Tools"]
+
+  POL --> SYS
+  R --> T
+  CAT --> T
+  J --> T
+  CSV --> T
+```
+
+Os nós **Prompt** e **Tools** são os mesmos do diagrama 1; aqui só se vê **de onde vêm** regras, nomes, políticas e números.
+
 ## Estado do draft (JSON)
 
 `current_step_index` = número de ações **já concluídas** (0 … N, com N = `len(steps)`). Próxima ação: `steps[current_step_index]` se `index < N`.
