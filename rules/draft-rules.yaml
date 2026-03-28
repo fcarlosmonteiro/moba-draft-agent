@@ -99,4 +99,4 @@ state_schema:
     - picks_red
   notes:
     - bans é lista global na ordem ocorrida ou conjunto único; picks separados por time conforme steps.
-    - current_step_index em 0..19 alinha com steps[0]..steps[19].
+    - current_step_index = ações concluídas, 0..N (N = len(steps), ex. 20).

@@ -1,8 +1,8 @@
 # Especificação do agente (implementação)
 
-Documento único para montar o orquestrador, tools e dados. **Atualize o diagrama abaixo** quando a arquitetura mudar.
+Documento único para montar o orquestrador, tools e dados. **Atualize os diagramas** quando a arquitetura mudar.
 
-## Diagrama
+## Diagrama lógico (camadas)
 
 ```mermaid
 flowchart TB
@@ -15,12 +15,12 @@ flowchart TB
     O[LLM]
     T0[validar draft]
     T1[resolver campeão]
-    T2[sinergia / counter]
+    T2[sinergia / counter / winrate rota]
     T3[consultas partidas]
   end
   subgraph dat["Dados"]
-    E[data/empirical - synergies + counters]
-    M[data/matches - CSV partidas]
+    E["data/empirical — synergies, counters, winrate"]
+    M["data/matches/matches.csv"]
   end
   U[Usuário + estado draft] --> O
   O --> T0 & T1 & T2 & T3
@@ -30,6 +30,61 @@ flowchart TB
   T3 --> M
   M -.->|ETL| E
   P -.-> O
+```
+
+## Arquitetura com tecnologias — LangGraph + OpenRouter
+
+Visão de **runtime** sugerida: orquestração em **LangGraph** (Python), modelo via **OpenRouter** (API compatível com OpenAI), tools em Python lendo arquivos do repositório.
+
+```mermaid
+flowchart TB
+  subgraph client["Cliente"]
+    UI[Chat / UI / API HTTP]
+  end
+
+  subgraph py["Aplicação Python"]
+    LG[LangGraph — StateGraph]
+    ST[Estado: mensagens + draft JSON]
+    AG[nó agente — LLM com tools]
+    TN[ToolNode — funções bindadas]
+    LG --> ST
+    LG --> AG
+    AG -->|tool_calls| TN
+    TN --> AG
+    AG -->|texto final| RESP[Resposta ao usuário]
+  end
+
+  subgraph orouter["OpenRouter"]
+    EP[HTTPS openrouter.ai/api/v1]
+    MD[Modelo escolhido no dashboard]
+  end
+
+  subgraph fs["Dados no disco"]
+    Y1[rules + catalog YAML]
+    Y2[policies MD]
+    J1[empirical JSONL]
+    CSV[matches.csv]
+  end
+
+  UI -->|mensagem + estado draft| LG
+  RESP --> UI
+  AG <-->|Chat Completions + tools| EP
+  EP --> MD
+  TN --> Y1
+  TN --> Y2
+  TN --> J1
+  TN --> CSV
+```
+
+### Fluxo do grafo (loop agente ↔ tools)
+
+```mermaid
+flowchart LR
+  START([início]) --> PRE[Montar system prompt]
+  PRE --> LLM[Modelo OpenRouter]
+  LLM -->|há tool_calls| TOOLS[Executar tools]
+  TOOLS --> LLM
+  LLM -->|só texto| END([fim])
 ```
 
 ## Fluxo
@@ -42,41 +97,53 @@ flowchart TB
 
 ```json
 {
-  "side": "blue",
-  "phase": "ban_1",
-  "banned": ["Skarner"],
-  "picked": [{ "champion": "Azir", "role": "mid" }]
+  "format_id": "ranked_solo_draft",
+  "current_step_index": 0,
+  "side_perspective": "blue",
+  "bans": [],
+  "picks_blue": [],
+  "picks_red": []
 }
 ```
 
-Ajuste campos ao `rules/draft-rules.yaml` do produto.
+`current_step_index` = ações **já concluídas** (0 … **20** para ranqueado: 20 steps). Próxima jogada = `steps[current_step_index]` se `< 20`. Fases: `phases[].step_range`.
 
 ---
 
 ## Camada 1 — Config
 
 | Caminho | Uso |
-|---------|-----|
+|--------|-----|
 | `rules/draft-rules.yaml` | Mecânica do draft; validação determinística (fases, bans/picks, roles). |
 | `policies/assistant.md` | Comportamento, limites (ex.: não inventar winrate), tom. |
 | `catalog/champions.yaml` | Nomes/ids/aliases alinhados a dados e ETL. |
 
 ---
 
-## Camada 2 — Agregados (sinergia / counter)
+## Camada 2 — Agregados
 
-**Arquivos:** `data/empirical/synergies.jsonl`, `counters.jsonl` (ou `.json` array — um formato por ambiente).
+### Sinergia e counter
+
+**Arquivos:** `data/empirical/synergies.jsonl`, `data/empirical/counters.jsonl`.
 
 **Linha:** `champion1`, `champion2`, `winrate`, `games`.
 
-**Semântica:** documentar no código do ETL e repetir na descrição da tool — sinergia e counter usam os mesmos campos; a ordem pode importar no counter. Sinergia costuma ser coocorrência no mesmo time; counter, vitória do lado de `champion1` vs presença de `champion2` no adversário (confirmar no seu pipeline).
+**Semântica:** alinhar à descrição da tool e ao ETL — mesmos campos nos dois arquivos; ordem pode importar no counter.
 
-**Regras de uso no agente**
+### Winrate por campeão e rota
 
-- Toda consulta com `min_games` (ex.: ≥10).
+**Arquivo:** `data/empirical/winrate.jsonl`.
+
+**Linha:** `champion`, `lane`, `winrate`, `games` — `lane` em {`top`, `jungle`, `mid`, `bottom`, `support`} (conferir valores reais no export).
+
+**Tool sugerida:** `empirical_lane_winrate` — `champion`, opcional `lane`, `min_games`; retorna linhas desse campeão para o draft sugerir rota com mais amostra.
+
+**Regras gerais (Camada 2)**
+
+- Consultas com `min_games` (ex.: ≥10) onde fizer sentido.
 - Resposta estruturada com `games` e `winrate` para o modelo citar a amostra.
 
-**Tools**
+**Tools (sinergia / counter)**
 
 | Tool | Parâmetros | Retorno |
 |------|------------|---------|
@@ -90,11 +157,13 @@ Ajuste campos ao `rules/draft-rules.yaml` do produto.
 
 ## Camada 3 — Partidas (uma linha = um jogo)
 
-**Ordem das colunas (CSV):**
+**Arquivo no repositório:** `data/matches/matches.csv`.
+
+**Colunas (ordem):**
 
 `gameid,top_blue,jng_blue,mid_blue,bot_blue,sup_blue,top_red,jng_red,mid_red,bot_red,sup_red,result`
 
-- `result`: **`1`** = vitória **azul**, **`0`** = vitória **vermelho**.
+- `result`: `1` = vitória do **azul**; `0` = vitória do **vermelho**.
 
 **Tools:** consultas **parametrizadas** (evitar SQL livre do LLM), ex.:
 
@@ -104,7 +173,7 @@ Ajuste campos ao `rules/draft-rules.yaml` do produto.
 
 Devolver sempre **contagens** (e período/torneio do dataset, quando existir).
 
-**Armazenamento:** CSV no início; depois SQLite/Postgres ou tabela normalizada `match_participant` se precisar de performance.
+**Armazenamento:** CSV; depois SQLite/Postgres ou tabela normalizada `match_participant` se precisar de performance.
 
 ---
 
@@ -114,14 +183,15 @@ Devolver sempre **contagens** (e período/torneio do dataset, quando existir).
 |------|--------|
 | `validate_draft_state` | `rules/draft-rules.yaml` |
 | `resolve_champion` | `catalog/champions.yaml` |
-| `empirical_synergy` / `empirical_counter` / `empirical_pair` | `data/empirical/*` |
-| `matches_*` (parametrizadas) | `data/matches/*` |
+| `empirical_synergy` / `empirical_counter` / `empirical_pair` | `data/empirical/*.jsonl` (sinergia/counter) |
+| `empirical_lane_winrate` | `data/empirical/winrate.jsonl` |
+| `matches_*` (parametrizadas) | `data/matches/matches.csv` |
 
 ---
 
 ## ETL
 
-Partidas (`data/matches`) → job batch → `synergies` + `counters` versionados. Agente em runtime lê só agregados + responde comps via Camada 3.
+`data/matches/matches.csv` → job batch → `synergies.jsonl`, `counters.jsonl`, `winrate.jsonl` (versionados). Em runtime o agente lê agregados via tools e comps via Camada 3.
 
 ## Datasets grandes
 
