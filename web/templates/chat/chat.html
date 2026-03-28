@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Chat — draft{% endblock %}
+{% block extra_css %}
+<style>
+  .bubble { margin: 0.75rem 0; padding: 0.75rem 1rem; border-radius: 12px; max-width: 100%; }
+  .user { background: #1d3a52; margin-left: 2rem; }
+  .assistant { background: #15202b; border: 1px solid #38444d; margin-right: 2rem; white-space: pre-wrap; }
+  .meta { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.25rem; }
+  textarea { width: 100%; min-height: 5rem; padding: 0.75rem; background: #15202b; border: 1px solid #38444d; color: inherit; border-radius: 8px; resize: vertical; }
+  .actions { margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .btn { padding: 0.5rem 1rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid #38444d; }
+</style>
+{% endblock %}
+{% block content %}
+<h1>Conversa</h1>
+<p style="color: var(--muted); font-size: 0.9rem;">Descreva o draft por texto; o agente usa tools para dados (sinergias, partidas, etc.). Requer <code>OPENROUTER_API_KEY</code> no ambiente.</p>
+
+{% if error %}
+<p class="error"><strong>Erro:</strong> {{ error }}</p>
+{% endif %}
+
+{% for pair in history %}
+  <div class="bubble user">
+    <div class="meta">Você</div>
+    {{ pair.0 }}
+  </div>
+  <div class="bubble assistant">
+    <div class="meta">Assistente</div>
+    {{ pair.1 }}
+  </div>
+{% endfor %}
+
+<form method="post" action="{% url 'chat' %}">
+  {% csrf_token %}
+  <label for="msg" class="meta">Mensagem</label>
+  <textarea id="msg" name="message" placeholder="Ex.: Quais sinergias empíricas do Aatrox com min 10 jogos?" required></textarea>
+  <div class="actions">
+    <button type="submit" name="action" value="send" class="btn btn-primary">Enviar</button>
+    {% if history %}
+    <button type="submit" name="action" value="clear" class="btn btn-ghost" formnovalidate>Limpar histórico</button>
+    {% endif %}
+  </div>
+</form>
+{% endblock %}

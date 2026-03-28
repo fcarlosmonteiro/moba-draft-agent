@@ -23,3 +23,7 @@ pytest -q
 ```
 
 Variáveis: copie [`.env.example`](.env.example) para `.env` (não versionado). Esquema dos dados em [`docs/agent.md`](docs/agent.md).
+
+## Web (Django)
+
+Interface de chat com login: [`web/README.md`](web/README.md). Deploy: [`render.yaml`](render.yaml).

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Entrar{% endblock %}
+{% block content %}
+<h1>Entrar</h1>
+<p style="color: var(--muted); font-size: 0.9rem;">Acesso restrito (experimental).</p>
+<form method="post" action="{% url 'login' %}">
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+    <p class="error">{{ form.non_field_errors }}</p>
+  {% endif %}
+  <p>
+    <label for="id_username">Usuário</label><br>
+    <input name="username" id="id_username" required autocomplete="username" style="width:100%;max-width:20rem;padding:0.5rem;background:#15202b;border:1px solid #38444d;color:inherit;border-radius:4px;">
+  </p>
+  <p>
+    <label for="id_password">Senha</label><br>
+    <input type="password" name="password" id="id_password" required autocomplete="current-password" style="width:100%;max-width:20rem;padding:0.5rem;background:#15202b;border:1px solid #38444d;color:inherit;border-radius:4px;">
+  </p>
+  <input type="hidden" name="next" value="{{ next }}">
+  <button type="submit" style="padding:0.5rem 1rem;background:var(--accent);border:none;border-radius:4px;color:#fff;cursor:pointer;font-weight:600;">Entrar</button>
+</form>
+{% endblock %}

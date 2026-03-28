@@ -14,6 +14,6 @@ Validar cada fatia antes da próxima. Detalhe técnico: [`agent.md`](agent.md).
 | 5 | `matches_*` + CSV | OK |
 | 6 | `chat_openrouter` (sem tools) | OK |
 | 7 | `agent_graph` LangGraph + tools | OK |
-| 8 | HTTP para testes (ex.: Django ou FastAPI) | Pendente |
+| 8 | HTTP — app Django em `web/` (Render: `render.yaml`) | MVP em andamento |
 
 Dependências: 2–3 precisam de 1; 7 precisa de 4–6. **8** é opcional para MVP web.

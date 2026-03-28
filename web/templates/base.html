@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Draft agent{% endblock %}</title>
+  <style>
+    :root { --bg: #0f1419; --fg: #e7e9ea; --muted: #8b98a5; --accent: #1d9bf0; --err: #f4212e; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--fg); margin: 0; line-height: 1.5; min-height: 100vh; }
+    header { padding: 1rem 1.25rem; border-bottom: 1px solid #38444d; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    header a { color: var(--muted); text-decoration: none; }
+    header a:hover { color: var(--accent); }
+    main { max-width: 44rem; margin: 0 auto; padding: 1.25rem; }
+    .error { color: var(--err); margin: 1rem 0; }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <header>
+    <strong>moba-draft-agent</strong>
+    {% if user.is_authenticated %}
+    <nav>
+      <span class="muted">{{ user.username }}</span>
+      · <a href="{% url 'logout' %}">Sair</a>
+    </nav>
+    {% endif %}
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
