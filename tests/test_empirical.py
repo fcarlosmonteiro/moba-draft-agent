@@ -1,5 +1,3 @@
-"""Fase 4 — dados empíricos JSONL."""
-
 from pathlib import Path
 
 import pytest

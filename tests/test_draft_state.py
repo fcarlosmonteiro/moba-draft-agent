@@ -1,5 +1,3 @@
-"""Fase 3 — validate_draft_state."""
-
 import pytest
 
 from moba_draft_agent import ChampionIndex, load_catalog, load_draft_rules, validate_draft_state
@@ -99,7 +97,6 @@ def test_duplicate_across_ban_and_pick(rules, ch_idx):
 
 
 def test_duplicate_same_team_blue(rules, ch_idx):
-    # Após 10 ações: 6 bans + blue pick + 2 red + blue pick → 2 picks azuis, 2 vermelhos
     st = {
         "format_id": "ranked_solo_draft",
         "current_step_index": 10,

@@ -1,4 +1,4 @@
-"""Validação do estado do draft contra rules/draft-rules.yaml."""
+"""Validação do JSON de draft contra `draft-rules.yaml`."""
 
 from __future__ import annotations
 
@@ -44,12 +44,7 @@ def validate_draft_state(
     config: ProjectConfig | None = None,
     require_known_champions: bool = True,
 ) -> DraftValidationResult:
-    """
-    Valida `format_id`, `current_step_index`, listas `bans`, `picks_blue`, `picks_red`.
-
-    Convenção: `current_step_index` = quantidade de ações **já concluídas** (0 a N,
-    com N = número de steps do formato). Próxima ação seria `steps[current_step_index]`.
-    """
+    """`current_step_index` = ações já concluídas (0..N); listas devem bater com `steps[:index]`."""
     errors: list[str] = []
     warnings: list[str] = []
 
@@ -163,7 +158,7 @@ def validate_draft_state(
     if errors:
         return DraftValidationResult(False, errors, warnings)
 
-    # Duplicidade (YAML: forbidden across rosters and within team)
+    # Regra do YAML: sem campeão repetido entre bans/picks; sem duplicata no mesmo time.
     if champion_index is not None:
         all_ids: list[str] = []
         for b in bans:

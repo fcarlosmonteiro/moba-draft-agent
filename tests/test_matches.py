@@ -1,5 +1,3 @@
-"""Fase 5 — partidas (matches.csv)."""
-
 from pathlib import Path
 
 import pytest
@@ -59,7 +57,6 @@ def test_composition_blue_gnar_line(store):
 
 
 def test_composition_known_winrate_single_game(store):
-    """Primeira linha do CSV: azul perde (result 0). Comp azul dessa linha tem pelo menos 1 jogo."""
     r = matches_row_by_gameid("LOLTMNT05_171038", store=store)
     if not r.get("found"):
         pytest.skip("matches.csv ausente")

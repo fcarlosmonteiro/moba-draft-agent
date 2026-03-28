@@ -1,4 +1,4 @@
-"""Fase 6 — uma chamada de chat via OpenRouter (sem LangGraph, sem tools)."""
+"""Chat completion via OpenRouter (sem LangGraph)."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ DEFAULT_MODEL = "google/gemini-2.5-flash-lite"
 
 
 def summarize_draft_rules(rules: dict[str, Any]) -> str:
-    """Texto curto para o system prompt (não envia o YAML inteiro)."""
+    """Resumo curto das regras ranqueadas para o system prompt."""
     fmt = (rules.get("formats") or {}).get("ranked_solo_draft") or {}
     steps = fmt.get("steps") or []
     totals = fmt.get("totals") or {}
@@ -30,7 +30,7 @@ def summarize_draft_rules(rules: dict[str, Any]) -> str:
 
 
 def build_system_prompt(config: ProjectConfig | None = None) -> str:
-    """Políticas (`assistant.md`) + resumo das regras de draft."""
+    """Políticas + resumo mecânico do draft."""
     cfg = config or ProjectConfig()
     policies = cfg.policies.strip()
     summary = summarize_draft_rules(cfg.draft_rules)
@@ -44,10 +44,7 @@ def openrouter_chat_completion(
     api_key: str | None = None,
     base_url: str | None = None,
 ) -> str:
-    """
-    Chat Completions compatível com OpenAI, apontando para OpenRouter.
-    Variáveis: OPENROUTER_API_KEY, OPENROUTER_MODEL (opcional).
-    """
+    """API OpenAI-compatible; env: `OPENROUTER_API_KEY`, opcional `OPENROUTER_MODEL`."""
     key = api_key or os.environ.get("OPENROUTER_API_KEY", "").strip()
     if not key:
         raise RuntimeError(
@@ -73,10 +70,7 @@ def draft_assistant_reply(
     model: str | None = None,
     api_key: str | None = None,
 ) -> str:
-    """
-    Uma troca: system (políticas + resumo das regras) + mensagem do usuário.
-    Próxima fase (LangGraph): substituir por grafo com tools.
-    """
+    """Uma rodada: system + user (sem tools; para grafo usar `agent_graph`)."""
     system = build_system_prompt(config)
     return openrouter_chat_completion(
         [

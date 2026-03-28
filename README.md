@@ -22,4 +22,4 @@ python -c "import moba_draft_agent; print(moba_draft_agent.__version__, moba_dra
 pytest -q
 ```
 
-Variáveis opcionais: copie [`.env.example`](.env.example) para `.env` (não versionado).
+Variáveis: copie [`.env.example`](.env.example) para `.env` (não versionado). Esquema dos dados em [`docs/agent.md`](docs/agent.md).

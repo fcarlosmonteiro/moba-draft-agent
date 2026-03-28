@@ -1,4 +1,4 @@
-"""Consultas a data/matches/matches.csv (Camada 3)."""
+"""Consultas a `data/matches/matches.csv`."""
 
 from __future__ import annotations
 
@@ -50,8 +50,6 @@ def _side_won(row: dict[str, str], side: Side) -> bool:
 
 @dataclass
 class MatchStore:
-    """Carrega `matches.csv` uma vez (lista de dicts por linha)."""
-
     root: Path = field(default_factory=project_root)
     _rows: list[dict[str, str]] | None = field(default=None, repr=False)
 
@@ -82,10 +80,7 @@ def matches_composition_stats(
     store: MatchStore | None = None,
     champion_index: ChampionIndex | None = None,
 ) -> dict[str, Any]:
-    """
-    Estatísticas para uma composição exata de 5 (papéis → campeão como no CSV).
-    `roster` com chaves: top, jungle, mid, bottom, support.
-    """
+    """Composição exata de 5; nomes canonicalizados como no CSV."""
     colmap = ROLE_TO_BLUE if side == "blue" else ROLE_TO_RED
     missing = set(colmap.keys()) - set(roster.keys())
     if missing:
@@ -122,7 +117,7 @@ def matches_champion_role_stats(
     store: MatchStore | None = None,
     champion_index: ChampionIndex | None = None,
 ) -> dict[str, Any]:
-    """Partidas em que `champion` jogou `role` em `side`; vitórias desse lado."""
+    """Contagem e vitórias do lado escolhido quando o campeão está na coluna da rota."""
     role_l = role.strip().lower()
     if role_l == "bot":
         role_l = "bottom"
@@ -159,7 +154,7 @@ def matches_sample(
     *,
     store: MatchStore | None = None,
 ) -> dict[str, Any]:
-    """Amostra determinística (fatia após ordenar por gameid) para reprodutibilidade."""
+    """Fatia ordenada por `gameid` (reprodutível)."""
     st = store or MatchStore()
     rows = st.rows
     sorted_rows = sorted(rows, key=lambda r: r.get("gameid", ""))
@@ -178,7 +173,6 @@ def matches_row_by_gameid(
     *,
     store: MatchStore | None = None,
 ) -> dict[str, Any]:
-    """Uma partida por id ou found=False."""
     st = store or MatchStore()
     gid = gameid.strip()
     for row in st.rows:

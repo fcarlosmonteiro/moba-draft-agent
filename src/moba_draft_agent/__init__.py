@@ -1,5 +1,3 @@
-"""Moba draft agent — pacote principal."""
-
 from moba_draft_agent.agent_graph import (
     DraftAssistantState,
     build_react_system_prompt,

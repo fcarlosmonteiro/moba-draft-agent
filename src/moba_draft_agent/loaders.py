@@ -1,4 +1,4 @@
-"""Carrega arquivos da Camada 1 (regras, catálogo, políticas)."""
+"""YAML/MD de regras, catálogo e políticas."""
 
 from __future__ import annotations
 
@@ -36,10 +36,7 @@ def load_policies(root: Path | None = None) -> str:
 
 @dataclass
 class ProjectConfig:
-    """
-    Acesso com cache em memória aos artefatos da Camada 1.
-    Útil para reutilizar o mesmo processo sem reler disco a cada tool.
-    """
+    """Regras, catálogo e políticas com cache em memória."""
 
     root: Path = field(default_factory=project_root)
     _draft_rules: dict[str, Any] | None = field(default=None, init=False, repr=False)

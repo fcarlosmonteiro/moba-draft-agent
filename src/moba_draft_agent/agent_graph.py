@@ -1,4 +1,4 @@
-"""Fase 7 — LangGraph ReAct + tools (OpenRouter via ChatOpenAI)."""
+"""LangGraph ReAct + tools (OpenRouter)."""
 
 from __future__ import annotations
 
@@ -68,10 +68,7 @@ def create_draft_react_agent(
     base_url: str | None = None,
     temperature: float = 0.4,
 ):
-    """
-    Grafo ReAct com tools ligadas ao catálogo, draft, empírico e matches.
-    Requer OPENROUTER_API_KEY (ou `api_key=`).
-    """
+    """Requer `OPENROUTER_API_KEY` ou `api_key=`."""
     cfg = config or ProjectConfig()
     index = ChampionIndex.from_catalog(cfg.catalog)
     emp = EmpiricalStore(root=cfg.root)
@@ -85,10 +82,7 @@ def create_draft_react_agent(
 
     @tool
     def tool_validate_draft_state_json(draft_json: str) -> str:
-        """
-        Valida estado do draft: JSON com format_id, current_step_index,
-        bans, picks_blue, picks_red (conforme draft-rules).
-        """
+        """JSON: format_id, current_step_index, bans, picks_blue, picks_red."""
         try:
             state = json.loads(draft_json)
         except json.JSONDecodeError as e:
@@ -159,10 +153,7 @@ def create_draft_react_agent(
 
     @tool
     def tool_matches_composition(side: str, roster_json: str) -> str:
-        """
-        Estatísticas de composição de 5 no CSV. side: blue ou red.
-        roster_json: objeto com chaves top, jungle, mid, bottom, support.
-        """
+        """side blue|red; roster_json com top, jungle, mid, bottom, support."""
         s = side.strip().lower()
         if s not in ("blue", "red"):
             return _json_line({"error": "side deve ser blue ou red"})
@@ -258,7 +249,7 @@ def invoke_draft_react(
     draft_state: dict[str, Any] | None = None,
     **agent_kwargs: Any,
 ) -> dict[str, Any]:
-    """Um invoke completo; reutilize `graph` para evitar recriar tools."""
+    """Passe `graph` para não recriar tools a cada mensagem."""
     g = graph or create_draft_react_agent(config=config, **agent_kwargs)
     payload: dict[str, Any] = {"messages": [HumanMessage(content=user_text)]}
     if draft_state is not None:

@@ -1,5 +1,3 @@
-"""Fase 2 — resolve_champion."""
-
 import csv
 from pathlib import Path
 
@@ -68,7 +66,6 @@ def test_resolve_champion_function_uses_disk():
 
 
 def test_matches_csv_sample_resolves(index):
-    """Amostra de nomes que aparecem em data/matches/matches.csv."""
     path = project_root() / "data" / "matches" / "matches.csv"
     if not path.is_file():
         pytest.skip("matches.csv ausente")

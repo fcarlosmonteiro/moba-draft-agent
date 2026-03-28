@@ -1,4 +1,4 @@
-"""Consultas aos agregados em data/empirical/*.jsonl (Camada 2)."""
+"""Consultas aos JSONL em `data/empirical/`."""
 
 from __future__ import annotations
 
@@ -36,8 +36,6 @@ def _canon_champion(name: str, index: ChampionIndex | None) -> str:
 
 @dataclass
 class EmpiricalStore:
-    """Carrega synergies, counters e winrate por rota (uma vez por instância)."""
-
     root: Path = field(default_factory=project_root)
     _synergy: list[dict[str, Any]] = field(default_factory=list, repr=False)
     _counter: list[dict[str, Any]] = field(default_factory=list, repr=False)
@@ -89,10 +87,7 @@ def empirical_synergy(
     store: EmpiricalStore | None = None,
     champion_index: ChampionIndex | None = None,
 ) -> dict[str, Any]:
-    """
-    Pares de sinergia onde `champion` aparece (mesmo time no ETL).
-    Retorno: champion, min_games, pairs[{partner, winrate, games}], truncated.
-    """
+    """Pares no mesmo time (ETL); `champion` em qualquer lado da linha."""
     c = _canon_champion(champion, champion_index)
     st = store or EmpiricalStore()
     rows: list[dict[str, Any]] = []
@@ -132,9 +127,7 @@ def empirical_counter(
     store: EmpiricalStore | None = None,
     champion_index: ChampionIndex | None = None,
 ) -> dict[str, Any]:
-    """
-    Métrica de counter do ETL: linhas com champion1 == campeão foco.
-    """
+    """Somente linhas com `champion1` = campeão foco."""
     c = _canon_champion(champion, champion_index)
     st = store or EmpiricalStore()
     rows: list[dict[str, Any]] = []
@@ -169,7 +162,7 @@ def empirical_pair(
     store: EmpiricalStore | None = None,
     champion_index: ChampionIndex | None = None,
 ) -> dict[str, Any]:
-    """Uma linha exata se existir (counter: apenas champion1=a, champion2=b)."""
+    """Counter: ordem fixa champion1/champion2; sinergia: qualquer ordem."""
     a = _canon_champion(champion_a, champion_index)
     b = _canon_champion(champion_b, champion_index)
     st = store or EmpiricalStore()
@@ -208,7 +201,7 @@ def empirical_lane_winrate(
     store: EmpiricalStore | None = None,
     champion_index: ChampionIndex | None = None,
 ) -> dict[str, Any]:
-    """Winrate por rota para um campeão; `lane` opcional filtra uma rota."""
+    """Filtra por `lane` se informado; senão todas as rotas com `min_games`."""
     c = _canon_champion(champion, champion_index)
     st = store or EmpiricalStore()
     lane_norm = lane.strip().lower() if lane else None

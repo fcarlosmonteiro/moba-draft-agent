@@ -1,4 +1,4 @@
-"""Resolução da raiz do repositório (rules/, catalog/, data/)."""
+"""Raiz do repositório (marcador `rules/draft-rules.yaml`)."""
 
 from __future__ import annotations
 
@@ -9,13 +9,7 @@ _MARKER = ("rules", "draft-rules.yaml")
 
 
 def project_root() -> Path:
-    """
-    Diretório raiz do projeto (onde existem `rules/draft-rules.yaml`).
-
-    Ordem:
-    1. Variável de ambiente `MOBA_DRAFT_ROOT` (caminho absoluto ou relativo ao cwd).
-    2. Busca a partir do arquivo deste módulo e ancestrais até achar o marcador.
-    """
+    """`MOBA_DRAFT_ROOT` se válido; senão sobe diretórios até achar `rules/draft-rules.yaml`."""
     env = os.environ.get("MOBA_DRAFT_ROOT", "").strip()
     if env:
         root = Path(env).expanduser().resolve()

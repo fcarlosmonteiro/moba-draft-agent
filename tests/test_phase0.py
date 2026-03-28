@@ -1,5 +1,3 @@
-"""Fase 0 — import e raiz do projeto."""
-
 from pathlib import Path
 
 import moba_draft_agent

@@ -1,5 +1,3 @@
-"""Carrega `.env` na raiz do repo antes dos testes (não sobrescreve variáveis já exportadas)."""
-
 from pathlib import Path
 
 

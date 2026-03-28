@@ -1,5 +1,3 @@
-"""Fase 7 — grafo ReAct + tools (smoke opcional com OPENROUTER_API_KEY)."""
-
 import os
 
 import pytest

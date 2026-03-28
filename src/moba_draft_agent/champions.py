@@ -1,4 +1,4 @@
-"""Resolução de nomes de campeão contra o catálogo (Camada 1)."""
+"""Nome digitado → entrada do catálogo."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from moba_draft_agent.loaders import ProjectConfig, load_catalog
 
 
 def _norm_variants(key: str) -> list[str]:
-    """Inclui chave sem apóstrofo para buscas tipo ksante → K'Sante."""
+    """Também indexa variante sem `'` (ex.: ksante → K'Sante)."""
     out = [key]
     if "'" in key:
         stripped = key.replace("'", "")
@@ -19,39 +19,24 @@ def _norm_variants(key: str) -> list[str]:
 
 
 def normalize_champion_query(text: str) -> str:
-    """
-    Normaliza texto para comparação: minúsculas, espaços colapsados,
-    apóstrofos tipográficos unificados (ex.: ' vs ').
-    """
+    """Minúsculas, espaços únicos, apóstrofos tipográficos → ASCII."""
     s = text.strip().lower()
-    for u in ("\u2019", "\u2018", "\u0060"):  # ', ', `
+    for u in ("\u2019", "\u2018", "\u0060"):
         s = s.replace(u, "'")
     return " ".join(s.split())
 
 
 @dataclass
 class ResolveResult:
-    """Resultado de resolve_champion."""
-
     ok: bool
-    """Match único encontrado."""
     ambiguous: bool
-    """Vários campeões para a mesma chave normalizada."""
     champion: dict[str, Any] | None
-    """Entrada do catálogo quando ok=True."""
     candidates: list[dict[str, Any]] = field(default_factory=list)
-    """Candidatos quando ambiguous=True (ou sugestões futuras)."""
     normalized_query: str = ""
     reason: str | None = None
-    """empty_query | not_found, etc."""
 
 
 class ChampionIndex:
-    """
-    Índice id/name/aliases normalizados → lista de entradas do catálogo.
-    Mesmo campeão pode mapear por várias chaves; deduplica por `id` por chave.
-    """
-
     def __init__(self, champions: list[dict[str, Any]]) -> None:
         self._champions = champions
         self._by_norm: dict[str, list[dict[str, Any]]] = {}
@@ -124,12 +109,7 @@ def resolve_champion(
     index: ChampionIndex | None = None,
     config: ProjectConfig | None = None,
 ) -> ResolveResult:
-    """
-    Resolve uma string de usuário para uma entrada canônica do catálogo.
-
-    Passe `index` para reutilizar índice em memória; senão usa `catalog` ou
-    `config.catalog` ou carrega do disco via `load_catalog()`.
-    """
+    """Prioridade: `index` → `catalog` → `config.catalog` → disco."""
     if index is not None:
         return index.resolve(query)
     if catalog is not None:

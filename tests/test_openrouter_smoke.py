@@ -1,5 +1,3 @@
-"""Fase 6 — smoke OpenRouter (opcional, requer OPENROUTER_API_KEY)."""
-
 import os
 
 import pytest

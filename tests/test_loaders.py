@@ -1,5 +1,3 @@
-"""Fase 1 — loaders da Camada 1."""
-
 import moba_draft_agent
 from moba_draft_agent import (
     ProjectConfig,
