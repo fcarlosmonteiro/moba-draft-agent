@@ -11,10 +11,27 @@ SESSION_AUTH_KEY = "draft_web_ok"
 
 
 def _repo_root() -> Path:
-    return Path(os.environ.get("MOBA_DRAFT_ROOT", ".")).resolve()
+    env = (os.environ.get("MOBA_DRAFT_ROOT") or "").strip()
+    if env:
+        return Path(env).expanduser().resolve()
+    # web/chat/auth_env.py → raiz do repo (sem depender do cwd)
+    return Path(__file__).resolve().parents[2]
+
+
+def _refresh_env_from_dotenv() -> None:
+    path = _repo_root() / ".env"
+    if not path.is_file():
+        return
+    try:
+        from dotenv import load_dotenv
+
+        load_dotenv(path, override=True)
+    except ImportError:
+        pass
 
 
 def resolve_web_password() -> str | None:
+    _refresh_env_from_dotenv()
     b64 = (os.environ.get("DRAFT_WEB_PASSWORD_B64") or "").strip()
     if b64:
         try:
@@ -40,6 +57,7 @@ def resolve_web_password() -> str | None:
 
 
 def resolve_web_user() -> str:
+    _refresh_env_from_dotenv()
     u = os.environ.get("DRAFT_WEB_USER", "").strip()
     if u:
         return u
