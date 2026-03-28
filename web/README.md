@@ -1,56 +1,50 @@
-# Interface web (Django)
+# Interface web (Django) — MVP sem banco
 
-Chat experimental com login; pensado para deploy no **Render**.
+Login **só com variáveis de ambiente** (`DRAFT_WEB_USER` / `DRAFT_WEB_PASSWORD`). Sessão em **cookie assinado** (sem SQLite/Postgres, sem `migrate`).
 
-## Instalação local
+## Local
 
 Na **raiz do repositório**:
 
 ```bash
 pip install -e ".[web,dev]"
 cd web
-python manage.py migrate
-```
-
-Crie o usuário de login (senha **não** vai para o Git — use o seu `.env`):
-
-```bash
-# No .env na raiz do repo, por exemplo:
-# DRAFT_WEB_USER=admin
-# DRAFT_WEB_PASSWORD=mobadraft2026
-
-python manage.py ensure_login_user
 python manage.py runserver
 ```
 
-**Login não entra?** Rode `ensure_login_user` de novo após mudar o `.env`. Se a senha contiver `#`, use aspas no `.env` ou `DRAFT_WEB_PASSWORD_B64` (`python -c "import base64; print(base64.b64encode(b'sua_senha').decode())"`).
+No `.env` na raiz do repo, por exemplo:
 
-Abra http://127.0.0.1:8000/ — faça login e use o chat. É necessário `OPENROUTER_API_KEY` no `.env` (raiz do repo).
+```env
+DRAFT_WEB_USER=admin
+DRAFT_WEB_PASSWORD=mobadraft2026
+OPENROUTER_API_KEY=...
+```
 
-## Variáveis de ambiente
+Abra http://127.0.0.1:8000/login — não há `ensure_login_user` nem banco.
+
+**Senha com `#`:** use aspas no `.env` ou `DRAFT_WEB_PASSWORD_B64` (`python -c "import base64; print(base64.b64encode(b'sua_senha').decode())"`).
+
+**Histórico longo no chat:** o cookie de sessão tem limite de tamanho; para conversas enormes, use “Limpar histórico”.
+
+## Variáveis
 
 | Variável | Uso |
 |----------|-----|
-| `OPENROUTER_API_KEY` | Obrigatório para o agente responder |
-| `DRAFT_WEB_USER` | Login (padrão `admin`) |
-| `DRAFT_WEB_PASSWORD` | Senha para `ensure_login_user` — no `.env`, **aspas** se tiver `#` |
-| `DRAFT_WEB_PASSWORD_B64` | Alternativa: senha em Base64 (útil no Render sem risco de cortar em `#`) |
-| `DJANGO_SECRET_KEY` | Obrigatório em produção (string longa aleatória) |
+| `OPENROUTER_API_KEY` | Obrigatório para o agente |
+| `DRAFT_WEB_USER` | Login (padrão `admin` se omitido) |
+| `DRAFT_WEB_PASSWORD` | Senha (plain ou com aspas se tiver `#`) |
+| `DRAFT_WEB_PASSWORD_B64` | Opcional; sobrepõe a senha em texto |
+| `DJANGO_SECRET_KEY` | Obrigatório em produção (assinatura do cookie de sessão) |
 | `DJANGO_DEBUG` | `1` local, `0` no Render |
-| `DJANGO_ALLOWED_HOSTS` | Lista separada por vírgula (ex.: `meu-app.onrender.com,.onrender.com`) |
-| `DJANGO_CSRF_TRUSTED_ORIGINS` | `https://meu-app.onrender.com` em HTTPS |
-| `DATABASE_URL` | Opcional; se definido, usa Postgres (Render) em vez de SQLite |
-| `MOBA_DRAFT_ROOT` | Opcional; por padrão é a raiz do repositório (pai de `web/`) |
+| `DJANGO_ALLOWED_HOSTS` | Ex.: `meu-app.onrender.com,.onrender.com` |
+| `DJANGO_CSRF_TRUSTED_ORIGINS` | `https://meu-app.onrender.com` |
 
 ## Render
 
-1. **Root directory:** raiz do repo (onde está `pyproject.toml`).
-2. **Build command:** `pip install -e ".[web]" && cd web && python manage.py collectstatic --noinput`
-3. **Start command:** `cd web && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT`
-4. **Pre-deploy** (ou comando único antes do start):  
-   `cd web && python manage.py migrate --noinput && python manage.py ensure_login_user`
-5. No painel, defina **Environment**: `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0`, `OPENROUTER_API_KEY`, `DRAFT_WEB_PASSWORD` (e opcionalmente `DRAFT_WEB_USER`), `DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS`.
+1. Root = raiz do repo (`pyproject.toml`).
+2. **Build:** `pip install -e ".[web]" && cd web && python manage.py collectstatic --noinput`
+3. **Start:** `cd web && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT`
+4. **Sem** pre-deploy de migrate.
+5. Environment: `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0`, `OPENROUTER_API_KEY`, `DRAFT_WEB_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `DJANGO_CSRF_TRUSTED_ORIGINS`.
 
-SQLite no disco efêmero do Render pode perder o banco a cada deploy; para persistir sessão/usuários, crie um **PostgreSQL** grátis no Render e ligue `DATABASE_URL` (já suportado em `settings.py`).
-
-Veja também [`render.yaml`](../render.yaml) no repositório.
+Blueprint: [`render.yaml`](../render.yaml).

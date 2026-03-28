@@ -26,4 +26,4 @@ Variáveis: copie [`.env.example`](.env.example) para `.env` (não versionado). 
 
 ## Web (Django)
 
-Interface de chat com login: [`web/README.md`](web/README.md). Deploy: [`render.yaml`](render.yaml).
+Chat Django (login por env, sem banco): [`web/README.md`](web/README.md). Deploy: [`render.yaml`](render.yaml).

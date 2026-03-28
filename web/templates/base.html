@@ -19,10 +19,9 @@
 <body>
   <header>
     <strong>moba-draft-agent</strong>
-    {% if user.is_authenticated %}
+    {% if request.session.draft_web_ok %}
     <nav>
-      <span class="muted">{{ user.username }}</span>
-      · <a href="{% url 'logout' %}">Sair</a>
+      <a href="{% url 'logout' %}">Sair</a>
     </nav>
     {% endif %}
   </header>
