@@ -5,7 +5,7 @@ try:
     from dotenv import load_dotenv
 
     _root = Path(__file__).resolve().parent.parent.parent
-    load_dotenv(_root / ".env", override=False)
+    load_dotenv(_root / ".env", override=True)
 except ImportError:
     pass
 

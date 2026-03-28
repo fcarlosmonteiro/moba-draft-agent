@@ -11,7 +11,8 @@ def main() -> None:
     try:
         from dotenv import load_dotenv
 
-        load_dotenv(repo_root / ".env", override=False)
+        # override=True: .env local prevalece sobre variáveis herdadas do shell
+        load_dotenv(repo_root / ".env", override=True)
     except ImportError:
         pass
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")

@@ -23,6 +23,9 @@ python manage.py ensure_login_user
 python manage.py runserver
 ```
 
+**Login não entra?** No arquivo `.env`, sem aspas, o `#` corta a senha (`moba#draft123` vira só `moba`). Use `DRAFT_WEB_PASSWORD="moba#draft123"` ou gere Base64:  
+`python -c "import base64; print(base64.b64encode(b'sua_senha').decode())"` → coloque em `DRAFT_WEB_PASSWORD_B64`. Rode `ensure_login_user` de novo.
+
 Abra http://127.0.0.1:8000/ — faça login e use o chat. É necessário `OPENROUTER_API_KEY` no `.env` (raiz do repo).
 
 ## Variáveis de ambiente
@@ -31,7 +34,8 @@ Abra http://127.0.0.1:8000/ — faça login e use o chat. É necessário `OPENRO
 |----------|-----|
 | `OPENROUTER_API_KEY` | Obrigatório para o agente responder |
 | `DRAFT_WEB_USER` | Login (padrão `admin`) |
-| `DRAFT_WEB_PASSWORD` | Senha — **obrigatória** para `ensure_login_user` |
+| `DRAFT_WEB_PASSWORD` | Senha para `ensure_login_user` — no `.env`, **aspas** se tiver `#` |
+| `DRAFT_WEB_PASSWORD_B64` | Alternativa: senha em Base64 (útil no Render sem risco de cortar em `#`) |
 | `DJANGO_SECRET_KEY` | Obrigatório em produção (string longa aleatória) |
 | `DJANGO_DEBUG` | `1` local, `0` no Render |
 | `DJANGO_ALLOWED_HOSTS` | Lista separada por vírgula (ex.: `meu-app.onrender.com,.onrender.com`) |
