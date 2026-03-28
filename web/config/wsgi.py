@@ -1,3 +1,5 @@
+import path_setup  # noqa: F401 — src/ no path antes do Django
+
 import os
 from pathlib import Path
 

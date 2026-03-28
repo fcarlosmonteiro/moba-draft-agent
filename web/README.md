@@ -12,6 +12,8 @@ cd web
 python manage.py runserver
 ```
 
+O `manage.py` / `wsgi` adicionam `../src` ao `sys.path`, então `moba_draft_agent` importa mesmo se a venv não tiver o `-e .` (ainda assim recomendamos instalar o pacote para deps declaradas).
+
 No `.env` na raiz do repo, por exemplo:
 
 ```env

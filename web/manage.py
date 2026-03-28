@@ -3,6 +3,9 @@
 
 import os
 import sys
+
+import path_setup  # noqa: F401 — src/ no path antes de tudo
+
 from pathlib import Path
 
 
@@ -11,7 +14,6 @@ def main() -> None:
     try:
         from dotenv import load_dotenv
 
-        # override=True: .env local prevalece sobre variáveis herdadas do shell
         load_dotenv(repo_root / ".env", override=True)
     except ImportError:
         pass
@@ -21,7 +23,7 @@ def main() -> None:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(
-            "Django não instalado. Rode: pip install -e \".[web]\""
+            "Django não instalado. Rode na raiz do repo: pip install -e \".[web]\""
         ) from exc
     execute_from_command_line(sys.argv)
 
