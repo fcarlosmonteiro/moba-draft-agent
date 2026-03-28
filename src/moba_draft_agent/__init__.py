@@ -14,6 +14,13 @@ from moba_draft_agent.empirical import (
     empirical_pair,
     empirical_synergy,
 )
+from moba_draft_agent.matches import (
+    MatchStore,
+    matches_champion_role_stats,
+    matches_composition_stats,
+    matches_row_by_gameid,
+    matches_sample,
+)
 from moba_draft_agent.loaders import (
     ProjectConfig,
     load_catalog,
@@ -41,4 +48,9 @@ __all__ = [
     "empirical_counter",
     "empirical_pair",
     "empirical_lane_winrate",
+    "MatchStore",
+    "matches_composition_stats",
+    "matches_champion_role_stats",
+    "matches_sample",
+    "matches_row_by_gameid",
 ]
